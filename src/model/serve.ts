@@ -11,6 +11,7 @@ import { Amigo } from "./amigo";
 import { Chat } from "./chat";
 import { Mensaje } from "./mensaje";
 import { router } from "../routes";
+import { Solicitud } from "./solicitud";
 
 class Server {
   private app: express.Application;
@@ -65,6 +66,7 @@ class Server {
       await Dislike.sync();
       await Comentario.sync();
       await Amigo.sync();
+      await Solicitud.sync();
       await Chat.sync();
       await Mensaje.sync();
     } catch (error) {

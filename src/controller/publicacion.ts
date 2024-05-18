@@ -16,7 +16,7 @@ export const getPublicaciones = async (req: Request, res: Response) => {
 };
 
 export const getPublicacion = async (req: Request, res: Response) => {
-  const { publicacion_id } = req.body;
+  const { publicacion_id } = req.params;
 
   try {
     const response = await _getPublicacion(publicacion_id);

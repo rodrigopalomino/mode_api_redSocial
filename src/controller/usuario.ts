@@ -6,6 +6,8 @@ import {
   _logIn,
   _signUp,
   _validate,
+  _getUsuario,
+  _updateUsuario,
 } from "../service/usuario";
 
 export const signUp = async (req: Request, res: Response) => {
@@ -46,6 +48,18 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+//Funciones Protegidas
+export const getUsuario = async (req: Request, res: Response) => {
+  const email = req.decodeToken?.email;
+
+  try {
+    const response = await _getUsuario(email || "");
+    res.status(response.status).json(response.item);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 export const getUsuarios = async (req: Request, res: Response) => {
   try {
     const response = await _getUsuarios();
@@ -55,7 +69,39 @@ export const getUsuarios = async (req: Request, res: Response) => {
   }
 };
 
-//Peticiones con Token
+export const updateUsuario = async (req: Request, res: Response) => {
+  const {
+    nombre,
+    avatar,
+    distrito,
+    info,
+    estudio,
+    facebook,
+    github,
+    instagram,
+  } = req.body;
+  const usuario_id = req.decodeToken?.usuario_id;
+
+  const usuario: Partial<Usuario> = {
+    usuario_id: usuario_id || 0,
+    nombre,
+    avatar,
+    distrito,
+    info,
+    estudio,
+    facebook,
+    github,
+    instagram,
+  };
+
+  try {
+    const response = await _updateUsuario(usuario);
+    res.status(response.status).json(response);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 export const logOut = async (req: Request, res: Response) => {
   const email = req.decodeToken?.email;
   try {

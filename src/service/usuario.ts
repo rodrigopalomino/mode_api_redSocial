@@ -81,6 +81,7 @@ export const _logIn = async (email: string, password: string) => {
   };
 };
 
+//funciones con token
 export const _getUsuarios = async () => {
   try {
     const items = await Usuario.findAll();
@@ -98,7 +99,56 @@ export const _getUsuarios = async () => {
   }
 };
 
-//funciones con token
+export const _getUsuario = async (email: string) => {
+  try {
+    const item = await Usuario.findOne({
+      where: { email: email },
+      attributes: [
+        "email",
+        "nombre",
+        "avatar",
+        "distrito",
+        "info",
+        "estudio",
+        "facebook",
+        "github",
+        "instagram",
+      ],
+    });
+    return {
+      item,
+      succes: true,
+      status: 200,
+    };
+  } catch (error) {
+    return {
+      msg: "error _getUsuario",
+      succes: false,
+      status: 400,
+    };
+  }
+};
+
+export const _updateUsuario = async (usuario: Partial<UsuarioInterface>) => {
+  try {
+    await Usuario.update(usuario, {
+      where: { usuario_id: usuario.usuario_id },
+    });
+
+    return {
+      msg: "usuario actualizado",
+      succes: true,
+      status: 200,
+    };
+  } catch (error) {
+    return {
+      msg: "error _update",
+      succes: false,
+      status: 400,
+    };
+  }
+};
+
 export const _logOut = async (email: string) => {
   try {
     //cambiar a estado desactibo

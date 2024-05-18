@@ -1,5 +1,4 @@
 import { Like as LikeInterface } from "../interface/like";
-import { Dislike as DislikeInterface } from "../interface/dislike";
 import { Like } from "../model/like";
 import { Dislike } from "../model/dislike";
 import { Publicacion } from "../model/publicacion";
@@ -93,89 +92,17 @@ export const _like = async (like: LikeInterface) => {
   }
 };
 
-export const _dislike = async (dislike: DislikeInterface) => {
+export const _getLikes = async (usuario_id: number) => {
   try {
-    //verificar si ya le a doad like
-    if (
-      await Like.findOne({
-        where: {
-          usuario_id: dislike.usuario_id,
-          publicacion_id: dislike.publicacion_id,
-        },
-      })
-    ) {
-      //borrar el like
-      await Like.destroy({
-        where: {
-          usuario_id: dislike.usuario_id,
-          publicacion_id: dislike.publicacion_id,
-        },
-      });
-      //crear la dislike
-      await Dislike.create(dislike);
-      //incrementar la cantidad de dislike
-      await Publicacion.increment("c_dislike", {
-        where: {
-          publicacion_id: dislike.publicacion_id,
-        },
-      });
-      //reducir la cantidad de like
-      await Publicacion.decrement("c_like", {
-        where: {
-          publicacion_id: dislike.publicacion_id,
-        },
-      });
-
-      return {
-        msg: "Dislike creado y like borrado",
-        succes: true,
-        status: 200,
-      };
-    }
-
-    //verificar si ya existe
-    const dislik = await Dislike.findOne({
-      where: {
-        usuario_id: dislike.usuario_id,
-        publicacion_id: dislike.publicacion_id,
-      },
-    });
-
-    //Si existe
-    if (dislik) {
-      //reducir la cantidad de dislikes de publicacion
-      await Publicacion.decrement("c_dislike", {
-        where: { publicacion_id: dislik.publicacion_id },
-      });
-      //borrar la fila
-      await Dislike.destroy({ where: { dislike_id: dislik.dislike_id } });
-
-      return {
-        msg: "Dislike eliminado",
-        succes: true,
-        status: 200,
-      };
-    }
-    //Si no existe
-    else {
-      //incrementar la cantidad de likes
-      await Publicacion.increment("c_dislike", {
-        where: { publicacion_id: dislike.publicacion_id },
-      });
-      //creamos la fila
-      await Dislike.create(dislike);
-
-      return {
-        msg: "Dislike creado",
-        succes: true,
-        status: 200,
-      };
-    }
-  } catch (error) {
-    console.log(error);
-
+    const items = await Like.findAll({ where: { usuario_id: usuario_id } });
     return {
-      msg: "error _dislike",
+      items,
+      succes: true,
+      status: 200,
+    };
+  } catch (error) {
+    return {
+      msg: "error _getLikes",
       succes: false,
       status: 400,
     };

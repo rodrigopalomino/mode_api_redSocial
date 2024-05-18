@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { _dislike, _like } from "../service/like";
+import { _getLikes, _like } from "../service/like";
 import { Like } from "../interface/like";
-import { Dislike } from "../interface/dislike";
+import { exec } from "child_process";
 
 export const like = async (req: Request, res: Response) => {
   const usuario_id = req.decodeToken?.usuario_id;
@@ -20,24 +20,16 @@ export const like = async (req: Request, res: Response) => {
   }
 };
 
-export const dislike = async (req: Request, res: Response) => {
+export const getLikes = async (req: Request, res: Response) => {
   const usuario_id = req.decodeToken?.usuario_id;
-  const { publicacion_id } = req.params;
-
-  const newDislike: Dislike = {
-    usuario_id: usuario_id || 0,
-    publicacion_id: Number(publicacion_id),
-  };
 
   try {
-    const response = await _dislike(newDislike);
-    res.status(response.status).json(response);
+    const response = await _getLikes(usuario_id || 0);
+    res.status(response.status).json(response.items);
   } catch (error) {
     res.status(400).json(error);
   }
 };
-
-import { exec } from "child_process";
 
 export const apagarPC = async (req: Request, res: Response) => {
   // Verificamos que el usuario tenga permisos suficientes para apagar la PC

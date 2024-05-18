@@ -25,12 +25,38 @@ export const Usuario = sequelize.define<UsuarioModel>(
     },
     avatar: {
       type: DataTypes.STRING,
-      defaultValue: "valorDefault",
+      defaultValue:
+        "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
       allowNull: false,
     },
     distrito: {
       type: DataTypes.STRING,
-      defaultValue: "valorDefaultDistrito",
+      defaultValue: "distrito default",
+      allowNull: true,
+    },
+    info: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+      allowNull: true,
+    },
+    estudio: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+      allowNull: true,
+    },
+    facebook: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+      allowNull: true,
+    },
+    github: {
+      type: DataTypes.STRING,
+      defaultValue: "",
+      allowNull: true,
+    },
+    instagram: {
+      type: DataTypes.STRING,
+      defaultValue: "",
       allowNull: true,
     },
     password: {

@@ -4,6 +4,11 @@ export interface Usuario {
   email: string;
   avatar?: string;
   distrito?: string;
+  info?: string;
+  estudio?: string;
+  facebook?: string;
+  github?: string;
+  instagram?: string;
   password: string;
   estado?: string;
 }
