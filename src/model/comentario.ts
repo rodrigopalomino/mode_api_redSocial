@@ -34,8 +34,10 @@ export const Comentario = sequelize.define<ComentarioModel>(
 
 Comentario.belongsTo(Publicacion, {
   foreignKey: "publicacion_id",
+  onDelete: "CASCADE",
 });
 
 Comentario.belongsTo(Usuario, {
   foreignKey: "usuario_id",
+  onDelete: "CASCADE",
 });

@@ -33,8 +33,10 @@ export const Dislike = sequelize.define<DislikeModel>(
 
 Dislike.belongsTo(Usuario, {
   foreignKey: "usuario_id",
+  onDelete: "CASCADE",
 });
 
 Dislike.belongsTo(Publicacion, {
   foreignKey: "publicacion_id",
+  onDelete: "CASCADE",
 });

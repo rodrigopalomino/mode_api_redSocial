@@ -31,8 +31,10 @@ export const Like = sequelize.define<LikeModel>(
 
 Like.belongsTo(Usuario, {
   foreignKey: "usuario_id",
+  onDelete: "CASCADE",
 });
 
 Like.belongsTo(Publicacion, {
   foreignKey: "publicacion_id",
+  onDelete: "CASCADE",
 });

@@ -61,8 +61,10 @@ export const getUsuario = async (req: Request, res: Response) => {
 };
 
 export const getUsuarios = async (req: Request, res: Response) => {
+  const { nombre } = req.params;
+
   try {
-    const response = await _getUsuarios();
+    const response = await _getUsuarios(nombre);
     res.status(response.status).json(response.items);
   } catch (error) {
     res.status(400).json(error);
