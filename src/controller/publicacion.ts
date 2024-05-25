@@ -10,10 +10,12 @@ import {
 import { Publicacion } from "../interface/publicacion";
 
 export const getPublicaciones = async (req: Request, res: Response) => {
-  const titulo = req.query.search as string;
+  const titulo = req.query.titulo as string;
+  const item = req.query.item as string;
+  const order = req.query.order as string;
 
   try {
-    const response = await _getPublicaciones(titulo);
+    const response = await _getPublicaciones(titulo, item, order);
     res.status(response.status).json(response.items);
   } catch (error) {
     res.status(400).json(error);
@@ -22,10 +24,17 @@ export const getPublicaciones = async (req: Request, res: Response) => {
 
 export const getPublicacionesUsuario = async (req: Request, res: Response) => {
   const usuario_id = req.decodeToken?.usuario_id;
-  const titulo = req.query.search as string;
+  const titulo = req.query.titulo as string;
+  const item = req.query.item as string;
+  const order = req.query.order as string;
 
   try {
-    const response = await _getPublicacionesUsuario(usuario_id || 0, titulo);
+    const response = await _getPublicacionesUsuario(
+      usuario_id || 1,
+      titulo,
+      item,
+      order
+    );
     res.status(response.status).json(response.items);
   } catch (error) {
     res.status(400).json(error);

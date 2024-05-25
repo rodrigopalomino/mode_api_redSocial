@@ -12,11 +12,12 @@ import {
 const router = Router();
 
 //rutas protegidas
-router.get("/", validateToken, getPublicaciones);
 router.get("/usuario", validateToken, getPublicacionesUsuario);
+
+router.get("/", validateToken, getPublicaciones);
 router.get("/:publicacion_id", validateToken, getPublicacion);
 router.post("/create", validateToken, createPublicacion);
-router.delete("/delete/:publicacion_id", validateToken, deletePublicacion);
 router.put("/update", validateToken, updatePublicacion);
+router.delete("/delete/:publicacion_id", validateToken, deletePublicacion);
 
 export { router };
